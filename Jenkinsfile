@@ -13,8 +13,6 @@ pipeline {
             steps {
                 echo "Start of Stage Test..."
                 echo "Testing......."
-                echo "Privet ${PROJECT_NAME}"
-                echo "Owner is ${OWNER_NAME}"
                 echo "End of Stage Build..."
             }
         }
