@@ -1,5 +1,5 @@
 pipeline {
-    agent {label "linux" }
+    agent label linux 
       
     { PROJECT_NAME = "Sysy"
       OWNER_NAME   = "Tati"
