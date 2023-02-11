@@ -1,5 +1,8 @@
 pipeline {
-    node { 'linux' } 
+    agent {
+        node { 'linux'
+             }
+          }
       
     { PROJECT_NAME = "Sysy"
       OWNER_NAME   = "Tati"
