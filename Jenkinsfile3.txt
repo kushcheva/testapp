@@ -1,7 +1,6 @@
 pipeline {
     agent node { 
-    label 'linux' 
-    }
+    label 'linux' }
  {
       PROJECT_NAME = "Neptun"
       OWNER_NAME   = "Denis Astahov"
