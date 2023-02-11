@@ -1,8 +1,6 @@
 pipeline {
-    agent { 
-    node { 
+    agent node { 
     label 'linux' 
-    } 
     }
  {
       PROJECT_NAME = "Neptun"
