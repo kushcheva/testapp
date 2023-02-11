@@ -1,6 +1,6 @@
 pipeline {
-    agent any
-    environment {
+    agent { label 'linux' }
+ {
       PROJECT_NAME = "Neptun"
       OWNER_NAME   = "Denis Astahov"
     }
