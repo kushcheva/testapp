@@ -1,8 +1,9 @@
 pipeline {
-    agent label 'linux' 
-      PROJECT_NAME = "Sysy"
+    node { 'linux' } 
+      
+    { PROJECT_NAME = "Sysy"
       OWNER_NAME   = "Tati"
-
+    }
     stages {
         stage('1-Build') {
             steps {
