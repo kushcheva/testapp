@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo " ============== start building image =================="
                 dir ('docker/toolbox') {
-                	sh 'docker build -t kushcheva/toolbox:latest . '
+                	sh 'docker build -t kushcheva/test:testbyku . '
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
-                docker push kushcheva/toolbox:latest
+                docker push kushcheva/test:testbyku
                 '''
             }
         }
