@@ -9,11 +9,10 @@ pipeline {
         stage("create docker image") {
             steps {
                 echo " ============== start building image =================="
-                dir ('docker') {
-                	sh 'docker build -t kushcheva/test:testbyku . '
+                sh 'docker build -f Dockerfile -t kushcheva/test:testbyku . '
                 }
-            }
         }
+        
         stage("docker push") {
             steps {
                 echo " ============== start pushing image =================="
