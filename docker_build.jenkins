@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-                sh 'docker push kushcheva/test:1
+                sh 'docker push kushcheva/test:1'
                 }    
             }
         }
