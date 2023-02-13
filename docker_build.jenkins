@@ -9,21 +9,10 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
-    stages {
-        stage("docker login") {
-            steps {
-                echo " ============== docker login =================="
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_kushcheva', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh """
-                    docker login -u $USERNAME -p $PASSWORD
-                    """
-                }
-            }
-        }
         stage("create docker image") {
             steps {
                 echo " ============== start building image =================="
-                dir ('docker/toolbox') {
+                dir ('docker') {
                 	sh 'docker build -t kushcheva/test:testbyku . '
                 }
             }
@@ -31,9 +20,11 @@ pipeline {
         stage("docker push") {
             steps {
                 echo " ============== start pushing image =================="
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_kushcheva', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
                 sh '''
                 docker push kushcheva/test:testbyku
                 '''
+                }    
             }
         }
     }
