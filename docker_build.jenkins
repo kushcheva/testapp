@@ -1,21 +1,23 @@
 pipeline {
     agent any
+    
+    environment {
+        dockerhub=credentials('dockerhub_kushcheva')
+    } 
         
     stages {  
         stage("create docker image") {
             steps {
                 echo " ============== start building image =================="
-                sh 'docker build -f Dockerfile -t kushcheva/test:testbyku . '
+                sh 'docker build -f Dockerfile -t kushcheva/test:1 . '
                 }
         }
         
         stage("docker push") {
             steps {
                 echo " ============== start pushing image =================="
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_kushcheva', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
-                sh '''
-                docker push kushcheva/test:testbyku
-                '''
+                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+                sh 'docker push kushcheva/test:1
                 }    
             }
         }
