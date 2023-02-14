@@ -22,14 +22,18 @@ pipeline {
                 }
         }
     
-        stage('Run Container on web server') {
+        stage('RunContainer on my_server_prod server') {
             steps {
-                echo " ============== run container =================="
+                echo " ============== start deploying image =================="
                 script {
-                  def dockerStop = "docker rm -f fp_app"
+                  def dockerStop = "docker rm -f app"
                   def dockerRun = "docker run -p 80:5000 -d --name app kushcheva/fp_app:1 "
+                  sshagent(['my_server_prod']) {
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.122.237.162 '${dockerStop}'"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.122.237.162 '${dockerRun}'"
+                    }
                 }
-             }
+           }
         }   
     } 
   }
