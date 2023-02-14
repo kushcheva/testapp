@@ -6,7 +6,12 @@ pipeline {
         dockerhub=credentials('dockerhub_kushcheva')
     } 
         
-    stages {  
+    stages { 
+        stage('Test python app') {
+            steps {
+                sh 'python test_fp.py'
+            }
+        }
         stage("Create docker image on my_server_dev node") {
             steps {
                 echo " ============== Start building image =================="
