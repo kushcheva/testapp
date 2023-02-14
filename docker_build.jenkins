@@ -19,7 +19,21 @@ pipeline {
                 echo " ============== start pushing image =================="
                 sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
                 sh 'docker push kushcheva/fp_app:1'    
-            }
+                }
         }
-    }
-}
+    
+        stage('RunContainer on my_server_prod server') {
+            steps {
+                echo " ============== start deploying image =================="
+                script {
+                  def dockerStop = "docker rm -f app"
+                  def dockerRun = "docker run -p 80:5000 -d --name app kushcheva/fp_app:1 "
+                  sshagent(['my_server_prod']) {
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.122.237.162 '${dockerStop}'"
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.122.237.162 '${dockerRun}'"
+                    }
+                }
+           }
+        }   
+    } 
+  }
