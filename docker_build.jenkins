@@ -10,7 +10,7 @@ pipeline {
         stage("Create docker image on my_server_dev node") {
             steps {
                 echo " ============== Start building image =================="
-                sh 'docker build -f Dockerfile -t kushcheva/fp_app:1 . '
+                sh 'docker build -f Dockerfile -t kushcheva/fp_app:$BUILD_NUMBER . '
                 }
         }
         
@@ -18,17 +18,16 @@ pipeline {
             steps {
                 echo " ============== Start pushing image =================="
                 sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-                sh 'docker push kushcheva/fp_app:1'    
+                sh 'docker push kushcheva/fp_app:$BUILD_NUMBER'    
                 }
         }
     
         stage("Run Container on web server") {
             steps {
                 echo " ============== run container =================="
-                script {
-                  def dockerStop = "docker rm -f fp_app"
-                  def dockerRun = "docker run -it -p 5000:5000 kushcheva/fp_app:1"
-                }
+                sh 'docker stop $(docker ps -a -q)'
+                sh 'docker rmi $(docker images -a -q)'
+                sh 'docker run -d -p 5000:5000 kushcheva/fp_app:$BUILD_NUMBER'
              }
         }   
     } 
