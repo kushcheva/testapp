@@ -10,7 +10,7 @@ pipeline {
         stage('Test python app') {
             steps {
                 sh 'pip install -r requirements.txt'
-                sh '/var/lib/jenkins/.local/bin/pytest -v'
+                sh 'pytest -v'
             }
         }
         stage("Create docker image on my_server_dev node") {
