@@ -9,7 +9,7 @@ pipeline {
             steps {
                 sh 'sudo apt install python3-pip -y'
                 sh 'pip install flask'
-                sh 'python test_fp.py'
+                sh 'python -m pytest test/'
             }
         }
         stage("Create docker image on my_server_dev node") {
