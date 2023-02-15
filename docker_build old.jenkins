@@ -6,7 +6,7 @@ pipeline {
         dockerhub=credentials('dockerhub_kushcheva')
     } 
         
-    stages {  
+    stages { 
         stage("Create docker image on my_server_dev node") {
             steps {
                 echo " ============== Start building image =================="
@@ -27,7 +27,7 @@ pipeline {
                 echo " ============== run container =================="
                 sh 'docker stop $(docker ps -a -q)'
                 sh 'docker rm $(docker ps -a -f status=exited -f status=created -q)'
-                sh 'docker rmi $(docker images -a -q)'
+                sh 'docker rmi -f $(docker images -a -q)'
                 sh 'docker run -d -p 5000:5000 kushcheva/fp_app:$BUILD_NUMBER'
              }
         }   

@@ -9,6 +9,8 @@ pipeline {
     stages { 
         stage('Test python app') {
             steps {
+                sh 'sudo apt install python3-pip -y'
+                sh 'pip install flask'
                 sh 'python test_fp.py'
             }
         }
