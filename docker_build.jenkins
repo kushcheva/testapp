@@ -1,7 +1,5 @@
 pipeline {
-    agent { 
-        label 'my_server_dev'
-        }
+    agent any
     environment {
         dockerhub=credentials('dockerhub_kushcheva')
     } 
