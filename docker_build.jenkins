@@ -9,9 +9,8 @@ pipeline {
     stages { 
         stage('Test python app') {
             steps {
-                sh 'sudo apt install python3-pip -y'
-                sh 'pip install flask'
-                sh 'python -m pytest test/'
+                sh 'pip install -r requirements.txt'
+                sh '/var/lib/jenkins/.local/bin/pytest -v'
             }
         }
         stage("Create docker image on my_server_dev node") {
