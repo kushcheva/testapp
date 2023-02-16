@@ -1,7 +1,10 @@
 pipeline {
     agent { 
         label 'my_server_prod'
-        }      
+        }
+        environment {
+        dockerhub=credentials('dockerhub_kushcheva')
+    } 
     stages {  
         stage("Run container on prod server") {
             steps {
