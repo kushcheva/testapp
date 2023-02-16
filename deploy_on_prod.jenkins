@@ -1,39 +1,20 @@
 pipeline {
     agent { 
-        label 'my_server_dev'
+        label 'my_server_prod'
         }
     environment {
         dockerhub=credentials('dockerhub_kushcheva')
     } 
         
     stages {  
-        stage("create docker image on my_server_dev node") {
+        stage("Run container on prod server") {
             steps {
-                echo " ============== start building image =================="
-                sh 'docker build -f Dockerfile -t kushcheva/fp_app:1 . '
-                }
+                echo " ============== run container =================="
+                sh 'docker stop $(docker ps -a -q)'
+                sh 'docker rm $(docker ps -a -f status=exited -f status=created -q)'
+                sh 'docker rmi -f $(docker images -a -q)'
+                sh 'docker run -d -p 5000:5000 kushcheva/fp_app:$BUILD_NUMBER'
+            }
         }
-        
-        stage("docker push") {
-            steps {
-                echo " ============== start pushing image =================="
-                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-                sh 'docker push kushcheva/fp_app:1'    
-                }
-        }
-    
-        stage('RunContainer on my_server_prod server') {
-            steps {
-                echo " ============== start deploying image =================="
-                script {
-                  def dockerStop = "docker rm -f app"
-                  def dockerRun = "docker run -p 80:5000 -d --name app kushcheva/fp_app:1 "
-                  sshagent(['my_server_prod']) {
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.122.237.162 '${dockerStop}'"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@3.122.237.162 '${dockerRun}'"
-                    }
-                }
-           }
-        }   
-    } 
-  }
+    }   
+ } 
