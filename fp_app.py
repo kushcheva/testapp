@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "This is main page version 10. Welcome to my project"
+    return "This is main page version 11. Welcome to my project"
 
 @app.route('/about')
 def about():
