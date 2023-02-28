@@ -10,7 +10,7 @@ pipeline {
         stage('Test python app') {
             steps {
                 sh 'pip install -r requirements.txt'
-                sh 'pytest -v'
+                sh 'pytest test_fp.py'
             }
         }
         stage("Create docker image on my_server_dev node") {
